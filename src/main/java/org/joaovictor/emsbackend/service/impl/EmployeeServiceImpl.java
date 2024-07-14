@@ -9,6 +9,8 @@ import org.joaovictor.emsbackend.repository.EmploeeRepository;
 import org.joaovictor.emsbackend.service.EmployeeService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
@@ -28,5 +30,31 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
 
         return EmployeeMapper.toDTO(employee);
+    }
+
+    @Override
+    public List<EmployeeDTO> getAllEmployees() {
+        List<Employee> employees = repository.findAll();
+
+        return EmployeeMapper.toDTOList(employees);
+    }
+
+    @Override
+    public EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTO) {
+        Employee employee = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
+
+        employee.setFirstName(employeeDTO.getFirstName());
+        employee.setLastName(employeeDTO.getLastName());
+        employee.setEmail(employeeDTO.getEmail());
+
+        Employee updatedEmployee = repository.save(employee);
+
+        return EmployeeMapper.toDTO(updatedEmployee);
+    }
+
+    @Override
+    public void deleteEmployee(Long id) {
+        repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
+        repository.deleteById(id);
     }
 }

@@ -29,4 +29,26 @@ public class EmployeeController {
 
         return ResponseEntity.ok(employeeDTO);
     }
+
+    @GetMapping
+    public ResponseEntity<?> getAllEmployees() {
+
+        return ResponseEntity.ok(employeeService.getAllEmployees());
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable("id") Long id, @RequestBody EmployeeDTO employeeDTO) {
+
+        EmployeeDTO updatedEmployee = employeeService.updateEmployee(id, employeeDTO);
+
+        return ResponseEntity.ok(updatedEmployee);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteEmployee(@PathVariable("id") Long id) {
+
+        employeeService.deleteEmployee(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }
