@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
+@CrossOrigin("*")//CrossOrigin serve para permitir que o front-end acesse o back-end. O "*" significa que qualquer origem pode acessar o back-end.
 @RestController
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
